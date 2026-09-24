@@ -1053,12 +1053,21 @@ $('#btn-heat').addEventListener('click', toggleHeat);
 $('#btn-shot').addEventListener('click', () => {
   const url = stage.screenshot();
   audio.tap();
+  // 다른 페이지에 삽입된 경우(호스팅 뷰어)에는 내려받기가 막혀 있으므로 길게 눌러 저장만 안내
+  let framed = true;
+  try {
+    framed = window.self !== window.top;
+  } catch {
+    framed = true;
+  }
   dialog({
     title: '스크린샷',
     body: '이미지를 길게 누르거나 오른쪽 클릭해 저장하세요.',
     img: url,
-    ok: '내려받기',
+    ok: framed ? '닫기' : '내려받기',
+    cancel: framed ? '' : '취소',
     onOk: () => {
+      if (framed) return;
       const a = document.createElement('a');
       a.href = url;
       a.download = 'rego-brick.png';
@@ -1319,6 +1328,7 @@ function dialog({ title, body, text, editable = false, img, ok = '확인', cance
   if (img) im.src = img;
   $('#dialog-ok').textContent = ok;
   $('#dialog-cancel').textContent = cancel;
+  $('#dialog-cancel').hidden = !cancel;
   $('#dialog').hidden = false;
   const done = (accept) => {
     $('#dialog').hidden = true;
