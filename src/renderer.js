@@ -270,6 +270,11 @@ export class Stage {
     const composer = new EffectComposer(this.renderer, rt);
     composer.addPass(new RenderPass(this.scene, this.camera));
     const gtao = new GTAOPass(this.scene, this.camera, size.x, size.y);
+    // 태블릿·휴대폰(보통 화질)은 AO를 절반 해상도로 계산
+    const aoScale = this.qualityName === 'high' ? 1 : 0.5;
+    const origSetSize = gtao.setSize.bind(gtao);
+    gtao.setSize = (w, h) => origSetSize(Math.max(1, Math.round(w * aoScale)), Math.max(1, Math.round(h * aoScale)));
+    gtao.setSize(size.x, size.y);
     gtao.updateGtaoMaterial({ radius: 0.9, distanceExponent: 1.6, thickness: 1.2, scale: 1.15, samples: 16, distanceFallOff: 1 });
     gtao.updatePdMaterial({ lumaPhi: 10, depthPhi: 2, normalPhi: 3, radius: 5, rings: 2, samples: 12 });
     gtao.blendIntensity = 0.95;

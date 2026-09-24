@@ -770,18 +770,20 @@ function guideTap(x, y) {
   const g = state.guide;
   if (!g || g.playing || !g.hints.length) return;
   const ray = stage.rayFrom(x, y);
-  let best = null, bt = Infinity;
+  const hits = [];
   for (const h of g.hints) {
     const t = rayBox(ray, h.obj.userData.min, h.obj.userData.max);
-    if (t !== null && t < bt) {
-      bt = t;
-      best = h;
-    }
+    if (t !== null) hits.push([t, h]);
   }
-  if (!best) return;
-  // 받쳐줄 부품이 아직 없으면 먼저 끼울 것을 안내
-  const [piece, bx, by, bz, rot] = g.model.bricks[best.i];
-  if (!world.check(piece, bx, by, bz, rot).ok) {
+  if (!hits.length) return;
+  hits.sort((a, b) => a[0] - b[0]);
+  // 겹쳐 보이면 지금 끼울 수 있는 것 중 가장 앞쪽
+  const ready = (h) => {
+    const [piece, bx, by, bz, rot] = g.model.bricks[h.i];
+    return world.check(piece, bx, by, bz, rot).ok;
+  };
+  const best = hits.map((e) => e[1]).find(ready);
+  if (!best) {
     audio.bonk();
     toast('먼저 아래쪽 부품을 끼워 주세요');
     return;
