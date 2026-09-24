@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+<!--HEAD-->
+<title>Rego Brick Studio</title>
+<meta name="description" content="브라우저에서 동작하는 3D 브릭 조립 스튜디오 — 실제 치수의 브릭, 결합음과 음악, 구조 분석, 조립 설명서">
+<meta name="theme-color" content="#EFEBE4">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans+KR:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="styles.css">
+<!--/HEAD-->
+</head>
+<body class="intro-on">
+<!--BODY-->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="i-brick" viewBox="0 0 24 24"><path d="M3 9.5 12 5l9 4.5v6L12 20l-9-4.5z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M3 9.5 12 14l9-4.5M12 14v6" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><ellipse cx="9" cy="8" rx="1.9" ry="1" fill="currentColor"/><ellipse cx="15" cy="8" rx="1.9" ry="1" fill="currentColor"/></symbol>
+    <symbol id="i-place" viewBox="0 0 24 24"><path d="M12 3v8m0 0-3-3m3 3 3-3" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 14.5 12 11l8 3.5v4L12 22l-8-3.5z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></symbol>
+    <symbol id="i-erase" viewBox="0 0 24 24"><path d="m14.5 4.5 5 5-9 9h-5l-2.5-2.5a1.4 1.4 0 0 1 0-2z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M9 10l5 5M10.5 18.5H20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></symbol>
+    <symbol id="i-paint" viewBox="0 0 24 24"><path d="M5 11V5h12v6H5z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M17 8h2v5h-8v3" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><rect x="9.5" y="16" width="3" height="5" rx="1" fill="none" stroke="currentColor" stroke-width="1.7"/></symbol>
+    <symbol id="i-pick" viewBox="0 0 24 24"><path d="m14 6 4 4M4 20l2-5 8.5-8.5a2.1 2.1 0 0 1 3 3L9 18z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" stroke-linecap="round"/><path d="M15.5 3.5a2.5 2.5 0 0 1 5 5l-2 2-5-5z" fill="currentColor"/></symbol>
+    <symbol id="i-rotate" viewBox="0 0 24 24"><path d="M20 12a8 8 0 1 1-2.6-5.9" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M20 4v4.5h-4.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-undo" viewBox="0 0 24 24"><path d="M9 14 4 9l5-5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M4.5 9H14a5.5 5.5 0 0 1 0 11h-3" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+    <symbol id="i-redo" viewBox="0 0 24 24"><path d="m15 14 5-5-5-5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M19.5 9H10a5.5 5.5 0 0 0 0 11h3" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+    <symbol id="i-focus" viewBox="0 0 24 24"><path d="M4 9V5h4M20 9V5h-4M4 15v4h4M20 15v4h-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="1.7"/></symbol>
+    <symbol id="i-heat" viewBox="0 0 24 24"><path d="M12 3c3 4 5 6.5 5 10a5 5 0 0 1-10 0c0-2 1-3.5 2-4.5.3 2 1.3 3 2.5 3.3C11 9 11.5 6 12 3z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></symbol>
+    <symbol id="i-camera" viewBox="0 0 24 24"><path d="M4 8h3.5L9 5.5h6L16.5 8H20v11H4z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><circle cx="12" cy="13" r="3.3" fill="none" stroke="currentColor" stroke-width="1.7"/></symbol>
+    <symbol id="i-music" viewBox="0 0 24 24"><path d="M9 18V6l10-2v12" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><circle cx="6.5" cy="18" r="2.5" fill="currentColor"/><circle cx="16.5" cy="16" r="2.5" fill="currentColor"/></symbol>
+    <symbol id="i-sound" viewBox="0 0 24 24"><path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M15.5 9a4.5 4.5 0 0 1 0 6M18 6.5a8 8 0 0 1 0 11" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></symbol>
+    <symbol id="i-menu" viewBox="0 0 24 24"><circle cx="5.5" cy="12" r="1.7" fill="currentColor"/><circle cx="12" cy="12" r="1.7" fill="currentColor"/><circle cx="18.5" cy="12" r="1.7" fill="currentColor"/></symbol>
+    <symbol id="i-play" viewBox="0 0 24 24"><path d="M8 5.5v13l10.5-6.5z" fill="currentColor"/></symbol>
+    <symbol id="i-pause" viewBox="0 0 24 24"><rect x="6.5" y="5.5" width="4" height="13" rx="1" fill="currentColor"/><rect x="13.5" y="5.5" width="4" height="13" rx="1" fill="currentColor"/></symbol>
+    <symbol id="i-prev" viewBox="0 0 24 24"><path d="m14.5 6-6 6 6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-next" viewBox="0 0 24 24"><path d="m9.5 6 6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-close" viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-cross" viewBox="0 0 24 24"><path d="m6.5 6.5 11 11M17.5 6.5l-11 11" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></symbol>
+    <symbol id="i-warn" viewBox="0 0 24 24"><path d="M12 4 2.8 19.5h18.4z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M12 10v4.2" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/><circle cx="12" cy="16.9" r="1.1" fill="currentColor"/></symbol>
+    <symbol id="i-grid" viewBox="0 0 24 24"><rect x="4" y="4" width="7" height="7" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.7"/><rect x="13" y="4" width="7" height="7" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.7"/><rect x="4" y="13" width="7" height="7" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.7"/><rect x="13" y="13" width="7" height="7" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.7"/></symbol>
+    <symbol id="i-scan" viewBox="0 0 24 24"><path d="M4 8V5.5A1.5 1.5 0 0 1 5.5 4H8M16 4h2.5A1.5 1.5 0 0 1 20 5.5V8M20 16v2.5a1.5 1.5 0 0 1-1.5 1.5H16M8 20H5.5A1.5 1.5 0 0 1 4 18.5V16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><path d="M4 12h16" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></symbol>
+  </defs>
+</svg>
+
+<canvas id="stage" aria-label="3D 조립 화면"></canvas>
+
+<header class="topbar">
+  <div class="brand">
+    <svg class="brand-mark" viewBox="0 0 40 40" aria-hidden="true"><path d="M5 15 20 8l15 7v11l-15 7-15-7z" fill="#E2862A"/><path d="M5 15 20 22l15-7" fill="none" stroke="#B8651A" stroke-width="1.4"/><path d="M20 22v11" stroke="#B8651A" stroke-width="1.4"/><path d="M5 15v11l15 7V22z" fill="#C9721F"/><ellipse cx="14.5" cy="12.6" rx="3.3" ry="1.7" fill="#F4A94F"/><ellipse cx="25.5" cy="12.6" rx="3.3" ry="1.7" fill="#F4A94F"/><ellipse cx="20" cy="16.4" rx="3.3" ry="1.7" fill="#F4A94F"/></svg>
+    <span class="brand-name">Rego</span>
+    <span class="brand-sub">브릭 스튜디오</span>
+  </div>
+  <nav class="modes" aria-label="모드">
+    <button class="mode" id="mode-build" aria-pressed="true">자유 조립</button>
+    <button class="mode" id="mode-guide" aria-pressed="false">조립 설명서</button>
+    <button class="mode" id="open-gallery"><svg><use href="#i-grid"/></svg><span>갤러리</span></button>
+  </nav>
+  <div class="top-actions">
+    <button class="icon-btn" id="btn-music" aria-pressed="true" title="배경 음악"><svg><use href="#i-music"/></svg></button>
+    <button class="icon-btn" id="btn-sfx" aria-pressed="true" title="효과음"><svg><use href="#i-sound"/></svg></button>
+    <button class="icon-btn" id="btn-menu" title="설정"><svg><use href="#i-menu"/></svg></button>
+  </div>
+</header>
+
+<aside class="hud" aria-live="polite">
+  <div class="hud-count"><svg class="hud-icon"><use href="#i-brick"/></svg><span id="count">0</span><span class="hud-total" id="count-total"></span></div>
+  <button class="hud-status" id="btn-analyze" title="구조 분석 실행">
+    <svg class="st-warn"><use href="#i-warn"/></svg><span id="weak-count">0</span><svg class="st-mark" id="st-mark"><use href="#i-check"/></svg>
+    <span class="st-label" id="st-label">구조 분석</span>
+  </button>
+  <div class="hud-model" id="hud-model" hidden></div>
+</aside>
+
+<div class="rail" role="toolbar" aria-label="보기 도구">
+  <button class="icon-btn" id="btn-undo" title="실행 취소 (Ctrl+Z)"><svg><use href="#i-undo"/></svg></button>
+  <button class="icon-btn" id="btn-redo" title="다시 실행 (Ctrl+Shift+Z)"><svg><use href="#i-redo"/></svg></button>
+  <span class="rail-sep"></span>
+  <button class="icon-btn" id="btn-focus" title="전체 보기 (F)"><svg><use href="#i-focus"/></svg></button>
+  <button class="icon-btn" id="btn-heat" aria-pressed="false" title="하중 히트맵 (H)"><svg><use href="#i-heat"/></svg></button>
+  <button class="icon-btn" id="btn-shot" title="스크린샷"><svg><use href="#i-camera"/></svg></button>
+</div>
+
+<section class="dock" id="dock-build" aria-label="조립 도구">
+  <div class="dock-row tools">
+    <div class="seg" role="radiogroup" aria-label="도구">
+      <button class="tool" data-tool="place" aria-pressed="true" title="놓기 (B)"><svg><use href="#i-place"/></svg><span>놓기</span></button>
+      <button class="tool" data-tool="erase" aria-pressed="false" title="빼기 (E)"><svg><use href="#i-erase"/></svg><span>빼기</span></button>
+      <button class="tool" data-tool="paint" aria-pressed="false" title="칠하기 (P)"><svg><use href="#i-paint"/></svg><span>칠하기</span></button>
+      <button class="tool" data-tool="pick" aria-pressed="false" title="집어오기 (I)"><svg><use href="#i-pick"/></svg><span>집기</span></button>
+    </div>
+    <button class="chip-btn" id="btn-rotate" title="회전 (R)"><svg><use href="#i-rotate"/></svg><span>회전</span></button>
+    <div class="current" id="current"><img id="current-img" alt=""><div><b id="current-name">브릭 2×4</b><small id="current-color">레드</small></div></div>
+  </div>
+  <div class="dock-row cats" id="cats" role="tablist" aria-label="부품 종류"></div>
+  <div class="dock-row pieces" id="pieces" aria-label="부품"></div>
+  <div class="dock-row swatches" id="swatches" aria-label="색상"></div>
+</section>
+
+<section class="dock guide" id="dock-guide" aria-label="조립 설명서" hidden>
+  <div class="guide-parts">
+    <div class="guide-step"><span class="gs-label">STEP</span><span class="gs-num" id="step-num">1</span></div>
+    <div class="parts" id="step-parts"></div>
+  </div>
+  <div class="guide-nav">
+    <button class="icon-btn big" id="step-prev" title="이전 단계"><svg><use href="#i-prev"/></svg></button>
+    <div class="progress"><div class="progress-bar" id="progress-bar"></div><span id="step-text">1 / 1</span></div>
+    <button class="icon-btn big accent" id="step-next" title="다음 단계"><svg><use href="#i-next"/></svg></button>
+    <button class="play" id="btn-play" title="자동 조립"><svg id="play-icon"><use href="#i-play"/></svg><span id="play-label">자동 조립</span></button>
+    <div class="speeds" id="speeds" role="radiogroup" aria-label="속도">
+      <button data-speed="1">1×</button><button data-speed="2" aria-pressed="true">2×</button><button data-speed="4">4×</button><button data-speed="10">10×</button>
+    </div>
+  </div>
+  <p class="guide-hint" id="guide-hint">반투명한 자리의 부품을 눌러 끼우거나, 다음 단계로 넘기세요.</p>
+</section>
+
+<button class="fab" id="btn-place" hidden><svg><use href="#i-check"/></svg><span>여기에 놓기</span></button>
+
+<section class="panel analysis" id="analysis" hidden aria-label="구조 분석 결과">
+  <header><div><span class="eyebrow">STRUCTURAL CHECK</span><h2 id="an-title">구조 분석</h2></div><button class="icon-btn" id="an-close" title="닫기"><svg><use href="#i-close"/></svg></button></header>
+  <div class="an-stats" id="an-stats"></div>
+  <ol class="an-list" id="an-list"></ol>
+  <p class="an-note">스터드 결합 수, 하중 중심의 돌출 거리, 유일한 연결 경로를 계산해 약한 연결부를 찾습니다.</p>
+</section>
+
+<div class="modal" id="gallery" hidden role="dialog" aria-modal="true" aria-labelledby="gallery-title">
+  <div class="modal-card wide">
+    <header><div><span class="eyebrow">MODELS</span><h2 id="gallery-title">갤러리</h2></div><button class="icon-btn" id="gallery-close" title="닫기"><svg><use href="#i-close"/></svg></button></header>
+    <div class="cards" id="cards"></div>
+  </div>
+</div>
+
+<div class="modal" id="menu" hidden role="dialog" aria-modal="true" aria-labelledby="menu-title">
+  <div class="modal-card">
+    <header><div><span class="eyebrow">SETTINGS</span><h2 id="menu-title">설정</h2></div><button class="icon-btn" id="menu-close" title="닫기"><svg><use href="#i-close"/></svg></button></header>
+    <div class="set-group">
+      <span class="set-label">소리</span>
+      <div class="seg small"><button id="menu-music">배경 음악</button><button id="menu-sfx">효과음</button></div>
+    </div>
+    <div class="set-group">
+      <label class="set-label" for="music-vol">음악 볼륨</label>
+      <input type="range" id="music-vol" min="0" max="100" value="55">
+    </div>
+    <div class="set-group">
+      <span class="set-label">화질</span>
+      <div class="seg small" id="quality"><button data-q="high">높음</button><button data-q="medium">보통</button><button data-q="low">절전</button></div>
+    </div>
+    <div class="set-group">
+      <span class="set-label">바닥판</span>
+      <div class="seg small" id="base-size"><button data-size="16">16×16</button><button data-size="32">32×32</button><button data-size="48">48×48</button></div>
+      <div class="base-colors" id="base-colors"></div>
+    </div>
+    <div class="set-group actions">
+      <button class="btn" id="act-new">새로 만들기</button>
+      <button class="btn" id="act-export">코드 복사</button>
+      <button class="btn" id="act-import">코드 붙여넣기</button>
+    </div>
+    <div class="set-group keys">
+      <span class="set-label">단축키</span>
+      <dl>
+        <dt>B · E · P · I</dt><dd>놓기 · 빼기 · 칠하기 · 집기</dd>
+        <dt>R</dt><dd>부품 회전</dd>
+        <dt>Ctrl+Z / Ctrl+Shift+Z</dt><dd>실행 취소 / 다시 실행</dd>
+        <dt>F · H · A</dt><dd>전체 보기 · 히트맵 · 구조 분석</dd>
+        <dt>← →</dt><dd>설명서 이전/다음 단계</dd>
+      </dl>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="dialog" hidden role="dialog" aria-modal="true" aria-labelledby="dialog-title">
+  <div class="modal-card narrow">
+    <h2 id="dialog-title"></h2>
+    <p id="dialog-body"></p>
+    <textarea id="dialog-text" rows="5" hidden></textarea>
+    <img id="dialog-img" alt="스크린샷" hidden>
+    <div class="dialog-actions"><button class="btn" id="dialog-cancel">취소</button><button class="btn primary" id="dialog-ok">확인</button></div>
+  </div>
+</div>
+
+<div class="intro" id="intro">
+  <div class="intro-card">
+    <span class="eyebrow">BRICK STUDIO · 8mm GRID</span>
+    <h1>Rego</h1>
+    <p>실제 치수로 만든 브릭을 딸깍 끼워 조립하세요. 구조가 버티는지 분석하고, 설명서를 따라 모델을 완성할 수 있습니다.</p>
+    <div class="intro-actions">
+      <button class="btn primary big" id="start-watch"><svg><use href="#i-play"/></svg>구시가지 조립 감상</button>
+      <button class="btn big" id="start-build">바로 만들기</button>
+    </div>
+    <button class="link" id="start-continue" hidden>저장된 작품 이어서 만들기</button>
+    <small>소리가 켜집니다 · 헤드폰 권장</small>
+  </div>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<!--SCRIPT-->
+<script type="module" src="main.js"></script>
+<!--/SCRIPT-->
+<!--/BODY-->
+</body>
+</html>
